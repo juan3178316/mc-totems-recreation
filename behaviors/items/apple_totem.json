@@ -1,0 +1,35 @@
+{
+	"format_version": "1.21.100", // idk if update this one :c
+	"minecraft:item": {
+		"description": {
+			"identifier": "ct:apple_totem",
+			"menu_category": {
+				"category": "items"
+			}
+		},
+		"components": {
+			/*** Components ***/
+			"minecraft:allow_off_hand": true,
+			"minecraft:can_destroy_in_creative": false,
+			"minecraft:display_name": {
+				"value": "Apple totem"
+			},
+			"minecraft:glint": false,
+			"minecraft:hand_equipped": false,
+			"minecraft:icon": {
+				"textures": {
+				"default": "ct.apple_totem"
+				}
+			},
+			"minecraft:interact_button": false,
+			"minecraft:liquid_clipped": false,
+			"minecraft:max_stack_size": 1,
+			"minecraft:rarity": "uncommon",
+			"minecraft:should_despawn": true,
+			"minecraft:stacked_by_data": false,
+			"minecraft:tags": {
+				"tags": [ "ct:custom_totem" ]
+			}
+		}
+	}
+}
