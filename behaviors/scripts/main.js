@@ -34,8 +34,6 @@ world.beforeEvents.entityHurt.subscribe(({ cancel, damage, hurtEntity }) => {
 }, { entityFilter: { type: "minecraft:player" } });
 
 class PlayerTotemEffect {
-	player;
-	itemHand;
 	constructor(namePlayer,hand) {
 		this.player = world.getPlayers({name:namePlayer})[0];
 		this.itemHand = getTypeHand(this.player,hand);
