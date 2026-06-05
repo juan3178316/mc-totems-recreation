@@ -2,9 +2,7 @@ import { system, world } from "@minecraft/server";
 
 
 function loadTotem(name,hand) {
-	system.run(() => {
-		new PlayerTotemEffect(name,hand);
-	});
+	system.run(() => new PlayerTotemEffect(name,hand));
 }
 
 function getTypeHand(player,hand) {
