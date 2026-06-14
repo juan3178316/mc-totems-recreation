@@ -1,10 +1,6 @@
 import { system, world } from "@minecraft/server";
 
 
-function loadTotem(name,hand) {
-	system.run(() => new PlayerTotemEffect(name,hand));
-}
-
 function getTypeHand(player,hand) {
 	return player.getComponent("minecraft:equippable").getEquipmentSlot(hand);
 }
@@ -17,24 +13,24 @@ function potionEffect(p,obj,c=0) {
 }
 
 world.beforeEvents.entityHurt.subscribe((call) => {
-  let { damage, hurtEntity: player } = call;
+	let { damage, hurtEntity: player } = call;
 		if(damage >= player.getComponent("minecraft:health").currentValue) {
 		// Query if the damage that receive the player is greater than or equal to her current health
 		if(getTypeHand(player,"Offhand").hasItem() && getTypeHand(player,"Offhand").hasTag("ct:custom_totem")) {
 			call.cancel = true;
-			loadTotem(String(player.name),"Offhand");
+			system.run(() => new PlayerTotemEffect(Number(player.id),"Offhand"));
 		}
 		else if(getTypeHand(player,"Mainhand").hasItem() && getTypeHand(player,"Mainhand").hasTag("ct:custom_totem")) {
 			call.cancel = true;
-			loadTotem(String(player.name),"Mainhand");
+			system.run(() => new PlayerTotemEffect(Number(player.id),"Mainhand"));
 		}
 		else return;
 	}
 }, { entityFilter: { type: "minecraft:player" } });
 
 class PlayerTotemEffect {
-	constructor(namePlayer,hand) {
-		this.player = world.getPlayers({name:namePlayer})[0];
+	constructor(id,hand) {
+		this.player = world.getPlayers().find(p => p.id == id);
 		this.itemHand = getTypeHand(this.player,hand);
 		this.itemHand.setItem(); // remove no stackeable totems
 
@@ -46,7 +42,7 @@ class PlayerTotemEffect {
 		//};
 		// Apply totem behavior
 		this.player.getComponent("minecraft:health").resetToDefaultValue();
-  this.player.runCommand("effect @s clear");
+		this.player.runCommand("effect @s clear");
 		this.player.applyDamage(1);
 		potionEffect(this.player, [
 			{ n:"absorption",t:5,amp:1,sp:true },
