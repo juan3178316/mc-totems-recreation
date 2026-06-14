@@ -16,16 +16,17 @@ function potionEffect(p,obj,c=0) {
 	} while (c<obj.length);
 }
 
-world.beforeEvents.entityHurt.subscribe(({ cancel, damage, hurtEntity }) => {
-		if(damage >= hurtEntity.getComponent("minecraft:health").currentValue) {
+world.beforeEvents.entityHurt.subscribe((call) => {
+  let { damage, hurtEntity: player } = call;
+		if(damage >= player.getComponent("minecraft:health").currentValue) {
 		// Query if the damage that receive the player is greater than or equal to her current health
-		if(getTypeHand(hurtEntity,"Offhand").hasItem() && getTypeHand(hurtEntity,"Offhand").hasTag("ct:custom_totem")) {
-			cancel = true;
-			loadTotem(String(hurtEntity.name),"Offhand");
+		if(getTypeHand(player,"Offhand").hasItem() && getTypeHand(player,"Offhand").hasTag("ct:custom_totem")) {
+			call.cancel = true;
+			loadTotem(String(player.name),"Offhand");
 		}
-		else if(getTypeHand(hurtEntity,"Mainhand").hasItem() && getTypeHand(hurtEntity,"Mainhand").hasTag("ct:custom_totem")) {
-			cancel = true;
-			loadTotem(String(hurtEntity.name),"Mainhand");
+		else if(getTypeHand(player,"Mainhand").hasItem() && getTypeHand(player,"Mainhand").hasTag("ct:custom_totem")) {
+			call.cancel = true;
+			loadTotem(String(player.name),"Mainhand");
 		}
 		else return;
 	}
