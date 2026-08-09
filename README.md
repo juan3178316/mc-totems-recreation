@@ -1,5 +1,5 @@
 # minecraft-totems-recreation
-Recreate the Minecraft bedrock totems with Javascript
+This repo is for show how recreate the totem of undying in Minecraft bedrock with Javascript and JSON
 
 > [!important]
 > Read the next info.
