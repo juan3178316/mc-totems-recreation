@@ -1,0 +1,33 @@
+{
+	"format_version": "1.26.0"
+	"minecraft:item": {
+		"description": {
+			"identifier": "ct:custom_totem",
+			"menu_category": {
+				"category": "items"
+			}
+		},
+		"components": {
+			/*** Components ***/
+			"minecraft:allow_off_hand": true,
+			"minecraft:cooldown": {
+				"category": "ct_on_use",
+				"duration": 0
+			},
+			"minecraft:display_name": {
+				"value": "custom totem"
+			},
+			"minecraft:hand_equipped": false,
+			"minecraft:icon": {
+				"textures": {
+				"default": "totem"
+				}
+			},
+			"minecraft:max_stack_size": 1,
+			"minecraft:stacked_by_data": true,
+			"minecraft:tags": {
+				"tags": [ "ct:custom_totem" ]
+			}
+		}
+	}
+}
