@@ -5,7 +5,7 @@
 		"description": "add custom totems in Minecraft",
 		"uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
 		"version": [ 1, 0, 0 ],
-		"min_engine_version": [ 1, 26, 10 ]
+		"min_engine_version": [ 1, 26, 30 ]
 	},
 	"modules": [
     // ...
@@ -21,13 +21,12 @@
     // The API beta isn't required now
 		{
 			"module_name": "@minecraft/server",
-			"version": "2.6.0"
+			"version": "2.8.0"
 		}
 	],
-	"capabilities": [ "script_eval" ],
 	"metadata": {
 		"authors": [ "https://github.com/juan3178316" ],
-		"url": "https://curseforge.com/minecraft-bedrock/addons/adventurecraft",
+		"url": "https://curseforge.com/minecraft-bedrock/addons/the-void-totem",
 		"license": "MIT",
 		"product_type": "addon",
 		"generated_with": {
