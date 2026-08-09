@@ -2,9 +2,16 @@
 This repo is for show how recreate the totem of undying in Minecraft bedrock with Javascript and JSON
 
 > [!important]
-> Read the next info.
+> the next info is about use this repo in your add-ons, so you need to follow the next steps
 
-When you're using the script code, make sure to add this data:
+## Repo content
+Here explain how works the JavaScript code: [List content](./md/index.md)
+
+## Third party and use in others add-ons
+
+If you use the code for your customizable totems, just give me credits (this is for minori changes in JavaScript code)..
+
+When you're using the script code and made many changes (like new effects, actions o more), make sure to add this information in the first line of javascript code:
 
 ```typescript
 /***
@@ -18,9 +25,19 @@ When you're using the script code, make sure to add this data:
  ***/
 ```
 
-The code can change in the future.
+_(The code can change in the future.)_
 
-# Compatibility
+## Compatibility
+> [!caution]
+> Currently the Minecraft bedrock version required for use this code is in 26.30 with the Minecraft API: `@minecraft/server` 2.8.0 version. but this requirements can change in the future.
 
-this code need to run in 26.10 of Minecraft bedrock.
-because require the `@minecraft/server` script API v2.6.0
+## How support
+If you want support this repository with fixing bugs, adding new features and more, just:
+- create a fork of this repo.
+- Make all change that you need.
+- Make a pull request at my repository and explain how works your changes.
+
+## Credits
+Thanks to Juan3178 (me) to make this recreation of totem of undying.
+
+_this repo use the [MIT license](https://github.com/juan3178316/minecraft-totems-recreation/blob/main/LICENSE)_
