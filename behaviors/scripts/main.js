@@ -1,28 +1,25 @@
 import { system, world } from "@minecraft/server";
 
-
-function getTypeHand(player,hand) {
-	return player.getComponent("minecraft:equippable").getEquipmentSlot(hand);
-}
+const getTypeHand = (player,hand) => player.getComponent("minecraft:equippable").getEquipmentSlot(hand);
 
 function potionEffect(p,obj,c=0) {
 	do {
-		p.addEffect("minecraft:"+obj[c].n, obj[c].t * 20, {amplifier: obj[c].amp, showParticles: obj[c].sp});
+		p.addEffect("minecraft:"+obj[c].n, obj[c].t * 20, {amplifier: (obj[c].amp ?? 0), showParticles: (obj[c].sp ?? true)});
 		c++;
 	} while (c<obj.length);
 }
 
 world.beforeEvents.entityHurt.subscribe((call) => {
 	let { damage, hurtEntity: player } = call;
-		if(damage >= player.getComponent("minecraft:health").currentValue) {
-		// Query if the damage that receive the player is greater than or equal to her current health
-		if(getTypeHand(player,"Offhand").hasItem() && getTypeHand(player,"Offhand").hasTag("ct:custom_totem")) {
+	if(damage >= player.getComponent("minecraft:health").currentValue) {
+		let offHand = getTypeHand(player,"Offhand"), mainHand = getTypeHand(player,"Mainhand");
+		if(offHand.hasItem() && offHand.hasTag("ct:custom_totem")) {
 			call.cancel = true;
-			system.run(() => new PlayerTotemEffect(Number(player.id),"Offhand"));
+			system.run(() => player.getItemCooldown("vt_on_use") === 0 ? new PlayerTotemEffect(Number(player.id),"Offhand") : void 0);
 		}
-		else if(getTypeHand(player,"Mainhand").hasItem() && getTypeHand(player,"Mainhand").hasTag("ct:custom_totem")) {
+		else if(mainHand.hasItem() && mainHand.hasTag("ct:custom_totem")) {
 			call.cancel = true;
-			system.run(() => new PlayerTotemEffect(Number(player.id),"Mainhand"));
+			system.run(() => player.getItemCooldown("vt_on_use") === 0 ? new PlayerTotemEffect(Number(player.id),"Mainhand") : void 0);
 		}
 		else return;
 	}
@@ -31,26 +28,18 @@ world.beforeEvents.entityHurt.subscribe((call) => {
 class PlayerTotemEffect {
 	constructor(id,hand) {
 		this.player = world.getPlayers().find(p => p.id == id);
+		this.#setCooldown = 30 // Avoid spam item consume and fix critical bug | type: Int Tick
 		this.itemHand = getTypeHand(this.player,hand);
-		this.itemHand.setItem(); // remove no stackeable totems
-
-		// The commented code its used for item with stacks greater than 1
-		//try { this.itemHand.amount -= 1; }
-		//catch(error) {
-			//this.itemHand.setItem();
-			//console.error(error); // unnecessary
-		//};
-		// Apply totem behavior
+		try {this.itemHand.amount--} catch(_) {this.itemHand.setItem()};
+		this.#loadTotem();
+	}
+	#loadTotem() {
 		this.player.getComponent("minecraft:health").resetToDefaultValue();
 		this.player.runCommand("effect @s clear");
 		this.player.applyDamage(1);
-		potionEffect(this.player, [
-			{ n:"absorption",t:5,amp:1,sp:true },
-			{ n:"regeneration",t:45,amp:1,sp:true },
-			{ n:"fire_resistance",t:40,amp:0,sp:true }
-		]);
-		this.player.runCommand("particle minecraft:totem_particle ~ ~2 ~");
+		potionEffect(this.player, [{ n:"absorption",t:5,amp:1 }, { n:"regeneration",t:45,amp:1 }, { n:"fire_resistance",t:40 }]);
 		this.player.runCommand("particle minecraft:totem_particle ~ ~2 ~");
 		this.player.runCommand("playsound random.totem");
 	}
-}
+	set #setCooldown(t) { this.player.startItemCooldown("ct_on_use", t)}
+};
