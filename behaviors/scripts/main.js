@@ -15,11 +15,11 @@ world.beforeEvents.entityHurt.subscribe((call) => {
 		let offHand = getTypeHand(player,"Offhand"), mainHand = getTypeHand(player,"Mainhand");
 		if(offHand.hasItem() && offHand.hasTag("ct:custom_totem")) {
 			call.cancel = true;
-			system.run(() => player.getItemCooldown("vt_on_use") === 0 ? new PlayerTotemEffect(Number(player.id),"Offhand") : void 0);
+			system.run(() => player.getItemCooldown("ct_on_use") === 0 ? new PlayerTotemEffect(Number(player.id),"Offhand") : void 0);
 		}
 		else if(mainHand.hasItem() && mainHand.hasTag("ct:custom_totem")) {
 			call.cancel = true;
-			system.run(() => player.getItemCooldown("vt_on_use") === 0 ? new PlayerTotemEffect(Number(player.id),"Mainhand") : void 0);
+			system.run(() => player.getItemCooldown("ct_on_use") === 0 ? new PlayerTotemEffect(Number(player.id),"Mainhand") : void 0);
 		}
 		else return;
 	}
